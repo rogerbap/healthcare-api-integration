@@ -2,11 +2,6 @@
 
 A healthcare interoperability platform demonstrating API integration with Epic, Cerner, and Azure Health Data Services. Built with Python Flask and modern web technologies.
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-green)
-![Flask](https://img.shields.io/badge/Flask-2.3.3-red)
-![FHIR](https://img.shields.io/badge/FHIR-R4-orange)
-![HL7](https://img.shields.io/badge/HL7-v2.8-purple)
-
 ## Features
 
 - **FHIR R4 Validation** - Validate patient resources against healthcare standards
