@@ -1,0 +1,65 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment files (will be mounted as volume)
+.env
+.env.local
+.env.production
+
+# Documentation
+README.md
+docs/
+
+# Docker
+docker-compose.yml
+Dockerfile
+
+# Testing
+.coverage
+htmlcov/
+
+# Healthcare data (HIPAA compliance)
+*.phi
+patient_data/
+test_data/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Node modules (if any)
+node_modules/
+
+# Database files
+*.db
+*.sqlite3

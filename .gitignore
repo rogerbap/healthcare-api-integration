@@ -1,0 +1,72 @@
+# Healthcare Data (HIPAA Compliance)
+*.phi
+patient_data/
+test_data/
+sample_patients/
+hl7_messages/
+fhir_test_data/
+
+# Environment Variables (API Keys & Secrets)
+.env
+.env.local
+.env.production
+.env.staging
+
+# Epic/Cerner API Credentials
+epic_credentials.json
+cerner_config.json
+azure_health_config.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+*.egg-info/
+
+# Flask
+instance/
+.webassets-cache
+
+# Logs (may contain PHI)
+logs/
+*.log
+audit_logs/
+hipaa_logs/
+
+# Database files
+*.db
+*.sqlite3
+healthcare.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# SSL Certificates
+*.pem
+*.key
+*.crt
+certificates/

@@ -1,0 +1,397 @@
+<!-- healthcare_api_frontend/templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Healthcare API Integration Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>Healthcare API Integration Dashboard</h1>
+        <p>FHIR R4 • HL7 v2.x • Epic Interconnect • Cerner Millennium • Azure Health Data Services</p>
+        <div class="tech-badges">
+            <span class="tech-badge">Python Flask</span>
+            <span class="tech-badge">FHIR R4</span>
+            <span class="tech-badge">HL7 v2.8</span>
+            <span class="tech-badge">Epic Interconnect</span>
+            <span class="tech-badge">Cerner PowerChart</span>
+            <span class="tech-badge">Azure API Management</span>
+            <span class="tech-badge">Microsoft Graph</span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- API Integration Overview -->
+        <div class="api-grid">
+            <!-- FHIR R4 API -->
+            <div class="api-card">
+                <div class="card-header">
+                    <h3 class="card-title">🔥 FHIR R4 Patient API</h3>
+                    <span class="status-badge">Connected</span>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-value" id="fhirPatients">Loading...</div>
+                        <div class="metric-label">Active Patients</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="fhirRequests">Loading...</div>
+                        <div class="metric-label">Requests/Min</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="fhirUptime">Loading...</div>
+                        <div class="metric-label">Uptime</div>
+                    </div>
+                </div>
+
+                <div class="code-block">GET /fhir/Patient/12345
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9...
+Accept: application/fhir+json
+
+Response: FHIR Patient Resource (R4)
+{
+  "resourceType": "Patient",
+  "id": "12345",
+  "identifier": [{
+    "use": "usual",
+    "type": {
+      "coding": [{
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        "code": "MR",
+        "display": "Medical Record Number"
+      }]
+    },
+    "value": "MRN123456"
+  }],
+  "active": true,
+  "name": [{
+    "use": "official",
+    "family": "Doe",
+    "given": ["Jane", "Marie"]
+  }],
+  "gender": "female",
+  "birthDate": "1985-03-15"
+}</div>
+
+                <ul class="endpoint-list">
+                    <li class="endpoint-item">
+                        <span class="method-badge get">GET</span>
+                        /fhir/Patient - Search patients
+                    </li>
+                    <li class="endpoint-item">
+                        <span class="method-badge post">POST</span>
+                        /fhir/Patient - Create patient
+                    </li>
+                    <li class="endpoint-item">
+                        <span class="method-badge get">GET</span>
+                        /fhir/Observation - Lab results
+                    </li>
+                </ul>
+            </div>
+
+            <!-- HL7 Integration -->
+            <div class="api-card hl7">
+                <div class="card-header">
+                    <h3 class="card-title">📨 HL7 v2.8 Message Processing</h3>
+                    <span class="status-badge">Processing</span>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-value" id="hl7Messages">Loading...</div>
+                        <div class="metric-label">Messages Today</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="hl7MostCommon">Loading...</div>
+                        <div class="metric-label">Most Common</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="hl7ProcessingTime">Loading...</div>
+                        <div class="metric-label">Avg Processing</div>
+                    </div>
+                </div>
+
+                <div class="code-block">MSH|^~\&|EPIC|UCSF|LAB|UCSF|202501121400||ADT^A01^ADT_A01|12345|P|2.8
+EVN||202501121400|||^JONES^JOHN^J
+PID|1||123456789^^^MRN^MR||DOE^JANE^A||19850315|F|||123 MAIN ST^^SF^CA^94102
+PV1|1|I|ICU^101^A|||||||||||||||12345</div>
+
+                <ul class="endpoint-list">
+                    <li class="endpoint-item">
+                        <span class="method-badge post">POST</span>
+                        /hl7/inbound - Receive HL7 messages
+                    </li>
+                    <li class="endpoint-item">
+                        <span class="method-badge get">GET</span>
+                        /hl7/status - Message queue status
+                    </li>
+                    <li class="endpoint-item">
+                        <span class="method-badge post">POST</span>
+                        /hl7/transform - FHIR conversion
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Epic Integration -->
+            <div class="api-card epic">
+                <div class="card-header">
+                    <h3 class="card-title">🏥 Epic Interconnect Bridge</h3>
+                    <span class="status-badge">Active</span>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-value" id="epicProviderOrgs">Loading...</div>
+                        <div class="metric-label">Provider Orgs</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="epicPatientRecords">Loading...</div>
+                        <div class="metric-label">Patient Records</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="epicResponseTime">Loading...</div>
+                        <div class="metric-label">Response Time</div>
+                    </div>
+                </div>
+
+                <div class="code-block"># Epic OAuth 2.0 Authentication
+POST https://fhir.epic.com/interconnect-fhir-oauth/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=client_credentials
+client_id=your-app-id
+client_secret=your-secret
+scope=system/Patient.read system/Observation.read</div>
+
+                <ul class="endpoint-list">
+                    <li class="endpoint-item">
+                        <span class="method-badge get">GET</span>
+                        /epic/patient-summary - Care everywhere
+                    </li>
+                    <li class="endpoint-item">
+                        <span class="method-badge post">POST</span>
+                        /epic/ccd-exchange - C-CDA documents
+                    </li>
+                </ul>
+                <button class="refresh-btn" onclick="testEpicConnection()">Test Epic Connection</button>
+            </div>
+
+            <!-- Azure Integration -->
+            <div class="api-card azure">
+                <div class="card-header">
+                    <h3 class="card-title">☁️ Azure Healthcare APIs</h3>
+                    <span class="status-badge">Synchronized</span>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-value" id="azureSLA">Loading...</div>
+                        <div class="metric-label">SLA Compliance</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="azureDataProcessed">Loading...</div>
+                        <div class="metric-label">Data Processed</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="azureApiCalls">Loading...</div>
+                        <div class="metric-label">API Calls/sec</div>
+                    </div>
+                </div>
+
+                <div class="code-block"># Azure Health Data Services
+GET https://yourworkspace-yourfhirservice.fhir.azurehealthcareapis.com/Patient
+Authorization: Bearer {access-token}
+Accept: application/fhir+json
+
+# Microsoft Graph - Healthcare integration
+GET https://graph.microsoft.com/v1.0/teams/{team-id}/channels
+Authorization: Bearer {token}</div>
+
+                <button class="refresh-btn" onclick="refreshAzureMetrics()">
+                    Refresh Azure Metrics
+                </button>
+            </div>
+        </div>
+
+        <!-- FHIR Data Validation & Testing -->
+        <div class="section">
+            <h2>🔍 FHIR Data Validation & Testing Console</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h4>Test FHIR Resource Validation</h4>
+                    <textarea id="fhirInput" placeholder="Paste FHIR JSON resource here..." style="width: 100%; height: 200px; font-family: monospace; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 8px;"></textarea>
+                    <button class="refresh-btn" onclick="validateFHIRResource()" style="margin-top: 1rem;">Validate FHIR Resource</button>
+                </div>
+                <div>
+                    <h4>Validation Results</h4>
+                    <div id="validationResults" style="background: #f8fafc; padding: 1rem; border-radius: 8px; height: 200px; overflow-y: auto; font-family: monospace; font-size: 0.9rem;">
+                        Ready to validate FHIR resources...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- HL7 Message Parser -->
+        <div class="section">
+            <h2>📨 HL7 v2.x Message Parser & Transformer</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                <div>
+                    <h4>HL7 Message Input</h4>
+                    <textarea id="hl7Input" placeholder="Paste HL7 v2.x message here..." style="width: 100%; height: 200px; font-family: monospace; padding: 1rem; border: 1px solid #e2e8f0; border-radius: 8px;"></textarea>
+                    <button class="refresh-btn" onclick="parseHL7Message()" style="margin-top: 1rem;">Parse HL7 Message</button>
+                    <button class="refresh-btn" onclick="transformToFHIR()" style="margin-top: 1rem; margin-left: 1rem;">Transform to FHIR</button>
+                </div>
+                <div>
+                    <h4>Parsed Output / FHIR Transformation</h4>
+                    <div id="hl7Results" style="background: #f8fafc; padding: 1rem; border-radius: 8px; height: 200px; overflow-y: auto; font-family: monospace; font-size: 0.9rem;">
+                        Ready to parse HL7 messages...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="section">
+            <h2>📊 Real-Time Analytics & Performance Monitoring</h2>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>API Response Times (Last 24 Hours)</h3>
+                    <div class="chart-container">
+                        <canvas id="responseTimeChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3>HL7 Message Volume by Type</h3>
+                    <div class="chart-container">
+                        <canvas id="messageVolumeChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3>Healthcare System Uptime Status</h3>
+                    <div class="chart-container">
+                        <canvas id="healthStatusChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3>FHIR Resource Processing Trends</h3>
+                    <div class="chart-container">
+                        <canvas id="fhirTrendsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Monitoring & Alerts -->
+        <div class="section">
+            <h2>🚨 Real-Time API Monitoring & Alerts</h2>
+            <div class="api-grid">
+                <div class="chart-card">
+                    <h4>System Health Alerts</h4>
+                    <div id="alertsContainer">
+                        <div class="alert alert-success">
+                            <strong>✅ Epic Interconnect:</strong> All systems operational - Response time: <span id="epicAlertTime">145ms</span>
+                        </div>
+                        <div class="alert alert-warning">
+                            <strong>⚠️ HL7 Processing:</strong> Queue depth elevated - <span id="hl7QueueDepth">47</span> messages pending
+                        </div>
+                        <div class="alert alert-success">
+                            <strong>✅ FHIR Service:</strong> Processing normally - 99.9% uptime
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-card">
+                    <h4>HIPAA Compliance Monitoring</h4>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-value" style="color: #059669;">100%</div>
+                            <div class="metric-label">Encrypted Transmissions</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value" style="color: #059669;" id="auditLogsToday">2,847</div>
+                            <div class="metric-label">Audit Logs Today</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value" style="color: #059669;">0</div>
+                            <div class="metric-label">Security Violations</div>
+                        </div>
+                    </div>
+                    <button class="refresh-btn" onclick="generateAuditReport()">Generate HIPAA Audit Report</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- EHR Integration Status -->
+        <div class="section">
+            <h2>🏥 EHR System Integration Status</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div class="chart-card">
+                    <h4>Epic MyChart Integration</h4>
+                    <div class="metric">
+                        <div class="metric-value" style="color: #6b46c1;" id="epicStatus">Connected</div>
+                        <div class="metric-label">Status</div>
+                    </div>
+                    <ul style="margin-top: 1rem; font-size: 0.9rem;">
+                        <li>✅ Patient Demographics Sync</li>
+                        <li>✅ Appointment Scheduling API</li>
+                        <li>✅ Clinical Document Exchange</li>
+                        <li>✅ Provider Directory Access</li>
+                    </ul>
+                    <button class="refresh-btn" onclick="testEpicConnection()" style="margin-top: 1rem;">Test Epic Connection</button>
+                </div>
+
+                <div class="chart-card">
+                    <h4>Cerner PowerChart Integration</h4>
+                    <div class="metric">
+                        <div class="metric-value" style="color: #e67e22;" id="cernerStatus">Connected</div>
+                        <div class="metric-label">Status</div>
+                    </div>
+                    <ul style="margin-top: 1rem; font-size: 0.9rem;">
+                        <li>✅ Medication Orders API</li>
+                        <li>✅ Lab Results Integration</li>
+                        <li>✅ Nursing Documentation</li>
+                        <li>⚠️ Radiology Reports (Delayed)</li>
+                    </ul>
+                    <button class="refresh-btn" onclick="testCernerConnection()" style="margin-top: 1rem;">Test Cerner Connection</button>
+                </div>
+
+                <div class="chart-card">
+                    <h4>Interoperability Metrics</h4>
+                    <div class="metrics-grid">
+                        <div class="metric">
+                            <div class="metric-value" id="connectedProviders">847</div>
+                            <div class="metric-label">Connected Providers</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value" id="dataQualityScore">98.7%</div>
+                            <div class="metric-label">Data Quality Score</div>
+                        </div>
+                    </div>
+                    <div style="margin-top: 1rem; font-size: 0.9rem;">
+                        <strong>Care Everywhere Network:</strong> 156 health systems<br>
+                        <strong>CommonWell Alliance:</strong> 67 participating organizations<br>
+                        <strong>eHealth Exchange:</strong> Active participant
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p><strong>Healthcare Interoperability Platform</strong> | Demonstrating enterprise-grade healthcare API integration</p>
+        <p>Technologies: Python Flask • FHIR R4 • HL7 v2.8 • Epic Interconnect • Cerner APIs • Azure Health Data Services</p>
+        <p>Compliance: HIPAA • HITECH • ONC Cures Act • 21st Century Cures Act</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/api-client.js') }}"></script>
+</body>
+</html>
